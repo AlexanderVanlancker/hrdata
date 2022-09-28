@@ -16,7 +16,7 @@
           </b-row>
           <b-row class="mb-2">
             <b-col sm="3" class="text-sm-right"><b>hireDate:</b></b-col>
-            <b-col>{{ row.item.hireDate }}</b-col>
+            <b-col>{{ new Date(row.item.hireDate).toLocaleDateString() }}</b-col>
             <b-col sm="3" class="text-sm-right"><b>salary:</b></b-col>
             <b-col>{{ row.item.salary }}</b-col>
           </b-row>
@@ -26,13 +26,9 @@
             <b-col></b-col>
             <b-col></b-col>
           </b-row>
-          <b-row class="mb-2">
+          <b-row class="mb-2" v-if="row?.item?.manager">
             <b-col sm="3" class="text-sm-right"><b>manager:</b></b-col>
-            <b-col>{{
-              row.item.manager
-                ? `${row.item.manager.firstName} ${row.item.manager.lastName}`
-                : ''
-            }}</b-col>
+            <b-col>{{`${row.item.manager.firstName} ${row.item.manager.lastName}`}}</b-col>
             <b-col></b-col>
             <b-col></b-col>
           </b-row>

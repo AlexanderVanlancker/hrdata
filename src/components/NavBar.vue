@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand href="#">HR Data</b-navbar-brand>
+      <b-navbar-brand to="/">HR Data</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -42,15 +42,17 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
+    <BasicModal />
   </div>
 </template>
 
 <script>
-export default {};
+import BasicModal from './BasicModal.vue';
+export default { components: { BasicModal } };
 </script>
 
 <style lang="scss">
-  .navbar {
-    padding: 0 100px;
-  }
+.navbar {
+  padding: 0 100px;
+}
 </style>

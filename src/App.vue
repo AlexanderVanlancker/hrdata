@@ -1,41 +1,50 @@
 <template>
-  <div>
+  <div id="app">
     <NavBar />
-    <div id="app">
-      <img alt="Vue logo" src="./assets/logo.png">
-      <EmployeeTable msg="Welcome to Your Vue.js App"/>
+    <nav>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </nav>
+    <div class="view">
+      <router-view/>
     </div>
   </div>
 </template>
 
 <script>
-import EmployeeTable from './components/EmployeeTable.vue'
-import NavBar from './components/NavBar.vue';
+  import NavBar from '@/components/NavBar.vue';
 
 export default {
-  name: 'App',
+  name: 'HomeView',
   components: {
-    EmployeeTable,
-    NavBar
-}
-}
+    NavBar,
+  },
+};
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin: 0 100px;
-  margin-top: 60px;
 }
-</style>
 
-<style scoped>
-  img {
-    max-width: 100px;
-    margin-bottom: 2rem;
+nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
   }
+}
+
+.view {
+  margin: 0 100px;
+}
 </style>
