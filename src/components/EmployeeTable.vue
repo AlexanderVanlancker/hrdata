@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ this.$store.state.graphedEmployees }}
     <b-input-group class="search" size="lg">
       <b-input-group-prepend is-text>
         <b-icon icon="search" font-scale="1"></b-icon>

@@ -6,11 +6,16 @@ import App from './App.vue';
 import router from './router';
 import Vuex from 'vuex';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+import VueApexCharts from 'vue-apexcharts'
 
 Vue.config.productionTip = false;
 Vue.use(Vuex);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+Vue.use(VueApexCharts);
+
+Vue.component('ApexChart', VueApexCharts);
+
 
 const store = new Vuex.Store({
   state: {
@@ -30,3 +35,4 @@ new Vue({
   render: (h) => h(App),
   store: store,
 }).$mount('#app');
+

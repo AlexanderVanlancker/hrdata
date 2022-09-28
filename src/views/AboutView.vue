@@ -5,17 +5,17 @@
       <router-link to="/about">About</router-link>
     </nav>
     <h1>This is an about page</h1>
-    <BarChart />
+    <BarChart2 />
   </div>
 </template>
 
 <script>
-import BarChart from '@/components/BarChart.vue';
+import BarChart2 from '@/components/BarChart2.vue';
 
 export default {
   name: 'HomeView',
   components: {
-    BarChart,
+    BarChart2,
   },
 };
 </script>
