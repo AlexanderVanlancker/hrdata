@@ -1,10 +1,6 @@
 <template>
   <div id="app">
     <NavBar />
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
     <div class="view">
       <router-view/>
     </div>
@@ -42,9 +38,5 @@ nav {
       color: #42b983;
     }
   }
-}
-
-.view {
-  margin: 0 100px;
 }
 </style>

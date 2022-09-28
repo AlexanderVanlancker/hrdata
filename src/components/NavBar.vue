@@ -3,13 +3,10 @@
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand to="/">HR Data</b-navbar-brand>
 
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
       <b-collapse id="nav-collapse" is-nav>
-        <!-- <b-navbar-nav>
-          <b-nav-item href="#">Link</b-nav-item>
-          <b-nav-item href="#" disabled>Disabled</b-nav-item>
-        </b-navbar-nav> -->
+        <b-navbar-nav>
+          <b-nav-item to="login">Chat</b-nav-item>
+        </b-navbar-nav>
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
@@ -42,13 +39,11 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-    <BasicModal />
   </div>
 </template>
 
 <script>
-import BasicModal from './BasicModal.vue';
-export default { components: { BasicModal } };
+export default {  };
 </script>
 
 <style lang="scss">

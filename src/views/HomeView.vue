@@ -1,5 +1,9 @@
 <template>
   <div class="home">
+    <nav>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </nav>
     <img alt="Vue logo" src="../assets/logo.png" />
     <EmployeeTable msg="Welcome to Your Vue.js App" />
   </div>
@@ -21,5 +25,9 @@ export default {
 img {
   max-width: 100px;
   margin-bottom: 2rem;
+}
+
+div {
+  margin: 0 100px;
 }
 </style>
