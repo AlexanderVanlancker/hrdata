@@ -1,11 +1,17 @@
 <template>
   <div>
+    {{ graphedEmployees }}
+    <p> </p>
+    {{ graphedEmployees.find(e => e.id === 100) }}
+    <p> </p>
+    {{ !graphedEmployees.find(e => e.id === 100) }}
+
     <b-input-group class="search" size="lg">
       <b-input-group-prepend is-text>
         <b-icon icon="search" font-scale="1"></b-icon>
-    </b-input-group-prepend>
-    <b-form-input v-model="searchTerm" placeholder="Search..."></b-form-input>
-  </b-input-group>
+      </b-input-group-prepend>
+      <b-form-input v-model="searchTerm" placeholder="Search..."></b-form-input>
+    </b-input-group>
 
     <b-table
       hover
@@ -45,9 +51,9 @@
                 {{ new Date(row.item.hireDate).toLocaleDateString() }}
               </span>
               <input
-                v-model="employee.hireDate"
                 v-if="editMode === row.item.employeeId"
-                type="text"
+                v-model="employee.hireDate"
+                type="datetime"
               />
             </b-col>
 
@@ -96,10 +102,18 @@
           </b-button>
           <b-button
             size="sm"
+            v-if="editMode !== row.item.employeeId"
             @click="graphEmployee(row.item)"
           >
             Add to graph
           </b-button>
+          <b-button
+            variant="success"
+            :v-if="isgraphed(row.item.employeeId)"
+            size="sm"
+            @click="degraphEmployee(row.item.employeeId)"
+            >Remove from graph</b-button
+          >
           <b-button
             variant="success"
             v-if="editMode === row.item.employeeId"
@@ -121,8 +135,12 @@
 </template>
 
 <script>
+import 'vue2-datepicker/index.css';
+
 export default {
   name: 'EmployeeTable',
+  components: {
+  },
   props: {
     msg: String,
   },
@@ -154,17 +172,25 @@ export default {
         id: employee.employeeId,
         name: `${employee.firstName} ${employee.lastName}`,
         job: employee.job.jobTitle,
-        salary: employee.salary
+        salary: employee.salary,
       });
+    },
+    isgraphed(id){
+      this?.$store?.state?.graphedEmployees.find(e => {
+              e.id === id;
+              console.log(this?.$store?.state?.graphedEmployees, e.id, id);
+              return true;
+            }); return false;},
+    degraphEmployee(id) {
+      this.$store.commit('degraphEmployee', id);
+      this.isgraphed(id);
+      console.log('first')
     },
     editDetials(employeeId) {
       this.editMode = employeeId;
       const selectedEmployee = this.employees.find(
         (e) => e.employeeId === employeeId
       );
-      selectedEmployee.hireDate = new Date(
-        selectedEmployee.hireDate
-      ).toLocaleDateString();
       this.employee = selectedEmployee;
     },
   },
@@ -195,6 +221,8 @@ export default {
           )
         : this.employees;
     },
+    graphedEmployees: function(){return this?.$store?.state?.graphedEmployees},
+    // storedEmployees: this.$store.state.graphedEmployees,/
   },
 };
 </script>

@@ -1,100 +1,105 @@
 <template>
-  <Bar
-    :chart-options="chartOptions"
-    :chart-data="chartData"
-    :chart-id="chartId"
-    :dataset-id-key="datasetIdKey"
-    :plugins="plugins"
-    :css-classes="cssClasses"
-    :styles="styles"
-    :width="width"
-    :height="height"
-  />
+  <div>
+    <ApexChart
+      ref="chart"
+      width="1000"
+      type="scatter"
+      :options="chartOptions"
+      :series="series"
+      :xaxis="xaxis"
+    ></ApexChart>
+  </div>
 </template>
 
 <script>
-import { Bar } from 'vue-chartjs/legacy';
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-} from 'chart.js';
-
-ChartJS.register(
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale
-);
-
 export default {
   name: 'BarChart',
-  components: { Bar },
-  props: {
-    chartId: {
-      type: String,
-      default: 'bar-chart',
-    },
-    datasetIdKey: {
-      type: String,
-      default: 'label',
-    },
-    width: {
-      type: Number,
-      default: 400,
-    },
-    height: {
-      type: Number,
-      default: 250,
-    },
-    cssClasses: {
-      default: '',
-      type: String,
-    },
-    styles: {
-      type: Object,
-      default: () => {},
-    },
-    plugins: {
-      type: Object,
-      default: () => {},
-    },
-  },
   data() {
     return {
-      chartData: {
-        labels: ['January', 'February', 'March'],
-        datasets: [{ data: [40, 20, 12] }],
-      },
+      series: [
+        { name: 'Estimate', type: 'column', data: [10, 15, 4, 12, 17] },
+        { name: 'Actual', data: [12, 20, 12, 5, 12] },
+      ],
+
       chartOptions: {
-        responsive: true,
+        chart: {
+          type: 'scatter',
+          height: 550,
+          zoom: {
+            enabled: false,
+            type: 'xy',
+          },
+          toolbar: {
+            show: false,
+          },
+        },
+        xaxis: {
+          type: 'category',
+        },
+        legend: {
+          height: 40,
+        },
       },
+      xaxis: {
+          type: 'category',
+        },
     };
   },
   mounted() {
     fetch('https://localhost:7294/api/Job')
       .then((res) => res.json())
       .then((data) => {
-        const jobsWithAverageSalary = data.map(
-          (job1) =>
-            ({ ...job1, averageSalary: (job1.maxSalary + job1.minSalary) / 2 })
-        );
+        const jobsWithAverageSalary = data.map((job1) => ({
+          ...job1,
+          averageSalary: (job1.maxSalary + job1.minSalary) / 2,
+        }));
         const sortedJobs = jobsWithAverageSalary.sort((job1, job2) => {
-          console.log(job1.averageSalary, job2.averageSalary)
-          return job1.averageSalary > job2.averageSalary});
-        const labels = sortedJobs.map(job => job.jobTitle);
-        const datasets = sortedJobs.map(job => job.averageSalary)
-        console.log(sortedJobs, 'sortedJobs in components/BarChart');
-        console.log(labels, 'labels in components/BarChart');
-        console.log(datasets, 'datasets in components/BarChart');
-        this.chartData.labels = labels;
-        this.chartData.datasets = [{ data: datasets, backgroundColor: '#5B6C5D', label: 'Average salary'}];
+          return job1.averageSalary > job2.averageSalary;
+        });
+        const labels = sortedJobs.map((job) => job.jobTitle);
+        const datasets = sortedJobs.map((job) => job.averageSalary);
+
+        const toGraph = this.$store.state.graphedEmployees;
+        const circles = sortedJobs.map((job) => {
+          const filteredToGraph = toGraph.filter((e) => e.job === job.jobTitle);
+          let res = null;
+
+          if (filteredToGraph) {
+            res = filteredToGraph.map((e) => e.salary);
+          }
+          return res;
+        });
+        this.$store.state.graphedEmployees?.map((e) => e.salary);
+        this.$refs.chart.updateSeries([
+          { name: 'Average salary', type: 'column', data: datasets },
+          { name: 'Salary', data: circles },
+          { name: 'fdsafdsaf', data: [{x:labels[2], y:1239}] },
+        ]);
+        this.$refs.chart.updateOptions({
+          xaxis: {
+            type: 'category',
+            categories: labels,
+            labels: {
+              formatter: function (value) {
+                return value;
+              },
+              style: {
+                fontSize: '10px',
+              },
+            },
+            tickPlacement: 'between',
+          },
+          yaxis: {
+            labels: {
+              formatter: function (value) {
+                return value;
+              },
+              style: {
+                fontSize: '10px',
+              },
+            },
+          },
+        });
       });
   },
 };

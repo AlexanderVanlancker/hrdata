@@ -2,20 +2,20 @@
   <div class="about">
     <nav>
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/chart">Chart</router-link>
     </nav>
     <h1>This is an about page</h1>
-    <BarChart2 />
+    <BarChart />
   </div>
 </template>
 
 <script>
-import BarChart2 from '@/components/BarChart2.vue';
+import BarChart from '@/components/BarChart.vue';
 
 export default {
-  name: 'HomeView',
+  name: 'ChartView',
   components: {
-    BarChart2,
+    BarChart,
   },
 };
 </script>

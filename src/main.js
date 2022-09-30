@@ -27,6 +27,9 @@ const store = new Vuex.Store({
         state.graphedEmployees.push(employee);
       }
     },
+    degraphEmployee(state, id){
+      state.graphedEmployees = state.graphedEmployees.filter(e => e.id !== id);
+    }
   },
 });
 
@@ -35,4 +38,3 @@ new Vue({
   render: (h) => h(App),
   store: store,
 }).$mount('#app');
-
